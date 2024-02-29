@@ -1,6 +1,10 @@
 import numpy as np
 
-def price_monte_carlo(S0, K, T, r, q, sigma, n, option_type, n_paths):
+# Monte Carlo pricing via the Gaussian (normal random) process.
+# params - see Option class definition
+# return - option price
+def ARITHMETIC_price_monte_carlo(S0, K, T, r, q, sigma, n, option_type, n_paths):
+    # STEP 0: Calculate necessary constants
     dt = T / n  # Time step
     drift = (r - q - 0.5 * sigma ** 2) * dt # mu
     vol_step = sigma * np.sqrt(dt) # sigma * sqrt of time step
