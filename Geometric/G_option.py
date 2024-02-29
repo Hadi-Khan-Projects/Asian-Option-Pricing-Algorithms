@@ -1,4 +1,5 @@
 from G_option_pricing import *
+
 class GeometricAsianOption:
     def __init__(self, S0, K, T, r, q, sigma, n, option_type='call'):
         self.S0 = S0  # Initial stock price

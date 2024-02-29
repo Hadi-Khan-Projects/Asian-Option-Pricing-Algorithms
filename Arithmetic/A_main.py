@@ -14,5 +14,5 @@ option_type = 'call'  # 'call' or 'put'
 asian_option = ArithmeticAsianOption(S0, K, T, r, q, sigma, n, option_type)
 
 # Pricing the option
-option_price = asian_option.price(num_paths=50000)
-print(f"The price of the Arithmetic Asian {option_type} option is: {option_price:.2f}")
+option_price = asian_option.price_monte_carlo(n_paths=10000)
+print(f"The price of the Arithmetic Asian {option_type} option is: {option_price:.2f}, computed via Monte Carlo simulation.")
