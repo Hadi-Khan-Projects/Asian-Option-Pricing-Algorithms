@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.fft import fft
 from scipy.interpolate import interp1d
+from scipy.special import gamma
 
 # FFT pricing
 # param - characteristic: the characteristic function
@@ -17,7 +18,7 @@ def GEOMETRIC_price_fft(S0, K, T, r, q, sigma, option_type, n, damping, N, eta, 
     discount = np.exp(-r * T)
 
     # STEP 2: FFT GRID SETUP
-    grid_points = np.arange(1, N) # FFT Grid points
+    grid_points = np.arange(1, N+1) # FFT Grid points
     frequencies = eta * (grid_points - 1)  # Frequencies in FFT space
     log_strikes = -b + spacing * (grid_points - 1)
 
@@ -27,16 +28,25 @@ def GEOMETRIC_price_fft(S0, K, T, r, q, sigma, option_type, n, damping, N, eta, 
             sigma_adj = sigma * np.sqrt((1/3) - (1/(2*n)) + (1/(6*n**2)))
             mu_adj = (r - q - 0.5 * sigma**2) * (0.5 - (1/(6*n))) + 0.5 * sigma_adj**2
             return np.exp(1j * frequency * (logS0 + (mu_adj - 0.5 * sigma_adj**2) * T) - 0.5 * sigma_adj**2 * T * frequency**2)
-    elif characteristic == "gaussian":
-        def characteristic_func(frequency): # GAUSSIAN CHARACTERISTIC
-            sigma_adj = 0.4
-            return np.exp(-0.5 * sigma_adj**2 * frequency**2 * T)
     elif characteristic == "variance gamma":
         def characteristic_func(frequency): # VARIANCE GAMMA CHARACTERISTIC
             sigma_adj = 3 * np.sqrt(3) / 5
             theta=1/9
             nu=0.25
             return (1 - 1j * theta * nu * frequency + 0.5 * nu * sigma_adj**2 * frequency**2)**(-T / nu)
+    elif characteristic == "cgmy":
+        def characteristic_func(frequency): # CGMY CHARACTERISTIC
+            C = 0.0244
+            G = 0.0765
+            M = 7.5515
+            Y = 1.2945
+            delta = T/n
+            mu_adj = ((M-1)**Y - M**Y + (G+1)**Y - G**Y) * C * delta * gamma(-Y)
+
+            print(C * delta * gamma(-Y) * ((M - frequency*1j)**Y - M**Y + (G + frequency*1j)**Y - G**Y))
+            print((C * delta * gamma(-Y) * ((M - frequency*1j)**Y - M**Y + (G + frequency*1j)**Y - G**Y)).shape)
+
+            return C * delta * gamma(-Y) * ((M - frequency*1j)**Y - M**Y + (G + frequency*1j)**Y - G**Y)
     else:
         print("WARNING: INVALID CHARFUNCTION")
         return None

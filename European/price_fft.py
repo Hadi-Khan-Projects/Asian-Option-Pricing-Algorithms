@@ -13,11 +13,13 @@ def EUROPEAN_price_fft(S0, K, T, r, q, sigma, option_type, damping, N, eta, char
     logK = np.log(K)  # Log of the strike price
     logS0 = np.log(S0)  # Log of the initial stock price
 
+    # eta is omega (frequencies)
+
     # STEP 1: DISCOUNT FACTOR
     discount = np.exp(-r * T)
 
     # STEP 2: FFT GRID SETUP
-    grid_points = np.arange(1, N) # FFT Grid points
+    grid_points = np.arange(1, N+1) # FFT Grid points
     frequencies = eta * (grid_points - 1)  # Frequencies in FFT space
     log_strikes = -b + spacing * (grid_points - 1)
 

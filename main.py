@@ -2,12 +2,12 @@ from option import Option
 
 # OPTION ATTRIBUTES
 S0 = 100  # Initial stock price
-K = 105  # Strike price
+K = 110  # Strike price
 T = 1  # Time to maturity in years
-r = 0.05  # Risk-free interest rate
-q = 0.02  # Continuous dividend yield
-sigma = 0.4  # Volatility of the underlying asset
-n = 252  # Number of observation points (daily observations in a year)
+r = 0.0367  # Risk-free interest rate
+q = 0.00  # Continuous dividend yield
+sigma = 0.17801  # Volatility of the underlying asset
+n = 1000  # Number of observation points (daily observations in a year)
 option_type = 'call'  # 'call' or 'put'
 
 # CREATING AN OPTION OBJECT
@@ -35,12 +35,12 @@ print(f"The price of the Geometric Asian {option_type} option is: {option_price:
 option_price = option.GEOMETRIC_price_fft_black_scholes(damping=1.5, N=4096, eta=0.25)
 print(f"The price of the Geometric Asian {option_type} option is: {option_price:.2f}, computed via FFT with Black-Scholes characteristic function.")
 
-# GEOMETRIC FFT GAUSSIAN
-option_price = option.GEOMETRIC_price_fft_gaussian(damping=1.5, N=4096, eta=0.25)
-print(f"The price of the Geometric Asian {option_type} option is: {option_price:.2f}, computed via FFT with Gaussian characteristic function.")
-
 # GEOMETRIC FFT VARIANCE GAMMA
 option_price = option.GEOMETRIC_price_fft_variance_gamma(damping=1.5, N=4096, eta=0.25)
 print(f"The price of the Geometric Asian {option_type} option is: {option_price:.2f}, computed via FFT with variance Gamma characteristic function.")
+
+# GEOMETRIC FFT CGMY
+option_price = option.GEOMETRIC_price_fft_cgmy(damping=1.5, N=4096, eta=0.25)
+print(f"The price of the Geometric Asian {option_type} option is: {option_price:.2f}, computed via FFT with CGMY characteristic function.")
 
 print(" ")

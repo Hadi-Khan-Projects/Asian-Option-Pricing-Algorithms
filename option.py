@@ -31,10 +31,10 @@ class Option:
         return EUROPEAN_price_fft(self.S0, self.K, self.T, self.r, self.q, self.sigma, self.option_type, damping, N, eta, characteristic="black scholes")
     
     def GEOMETRIC_price_fft_black_scholes(self, damping, N, eta):
-       return GEOMETRIC_price_fft(self.S0, self.K, self.T, self.r, self.q, self.sigma, self.option_type, self.n, damping, N, eta, characteristic="black scholes")
-    
-    def GEOMETRIC_price_fft_gaussian(self, damping, N, eta):
-       return GEOMETRIC_price_fft(self.S0, self.K, self.T, self.r, self.q, self.sigma, self.option_type, self.n, damping, N, eta, characteristic="gaussian")  
+       return GEOMETRIC_price_fft(self.S0, self.K, self.T, self.r, self.q, self.sigma, self.option_type, self.n, damping, N, eta, characteristic="black scholes") 
     
     def GEOMETRIC_price_fft_variance_gamma(self, damping, N, eta):
        return GEOMETRIC_price_fft(self.S0, self.K, self.T, self.r, self.q, self.sigma, self.option_type, self.n, damping, N, eta, characteristic="variance gamma") 
+    
+    def GEOMETRIC_price_fft_cgmy(self, damping, N, eta):
+       return GEOMETRIC_price_fft(self.S0, self.K, self.T, self.r, self.q, self.sigma, self.option_type, self.n, damping, N, eta, characteristic="cgmy") 
