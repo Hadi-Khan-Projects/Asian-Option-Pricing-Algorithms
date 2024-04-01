@@ -1,19 +1,20 @@
 import numpy as np
 from scipy.fft import fft
 from scipy.interpolate import interp1d
+from scipy.special import gamma
 
-# FFT pricing
-# param - characteristic: the characteristic function
-# params - see Option class definition
-# return - option price
-def EUROPEAN_price_fft_black_scholes(S0, K, T, r, q, sigma, option_type, damping, N, eta):
+def characteristic_exponent_cgmy(omega, Delta, C, G, M, Y):
+    return C * Delta * gamma(-Y) * ((M - 1j*omega)**Y - M**Y + (G + 1j*omega)**Y - G**Y)
+
+def characteristic_function_cgmy(omega, S0, m, n, Delta, C, G, M, Y):
+    return np.exp(1j * omega * (np.log(S0) + m * Delta * n / 2) + np.sum([characteristic_exponent_cgmy(omega * (n - k + 1) / (n + 1), Delta, C, G, M, Y) for k in range(1, n+1)], axis=0))
+
+def GEOMETRIC_price_fft_cgmy(S0, K, T, r, q, C, G, M, Y, option_type, n, damping, N, eta):    
     # STEP 0: CALCULATE NECESSARY CONSTANTS
     b = np.pi * eta
     spacing = (2*np.pi)/(N*eta)  # Spacing of log-strikes
     logK = np.log(K)  # Log of the strike price
-    logS0 = np.log(S0)  # Log of the initial stock price
-
-    # eta is omega (frequencies)
+    Delta = T / n # Time increment  
 
     # STEP 1: DISCOUNT FACTOR
     discount = np.exp(-r * T)
@@ -23,21 +24,18 @@ def EUROPEAN_price_fft_black_scholes(S0, K, T, r, q, sigma, option_type, damping
     frequencies = eta * (grid_points - 1)  # Frequencies in FFT space
     log_strikes = -b + spacing * (grid_points - 1)
 
-    # STEP 3: SELECT CHARACTERISTIC FUNCTIONS
-
-    def characteristic_func(frequency): # Black-Scholes characteristic function
-        # Risk-neutral distribution of log-returns under Black-Scholes
-        return np.exp(1j * frequency * (logS0 + (r - q - 0.5 * sigma**2) * T) - 0.5 * sigma**2 * T * frequency**2)
+    # STEP 3: CALCULATE DRIFT TERM
+    m = (r - q) - characteristic_exponent_cgmy(-1j, Delta, C, G, M, Y) / Delta
 
     # STEP 4: ADJUSTED CHARACTERISTIC FUNCTION WITH DAMPING
     def adjusted_characteristic_func(frequency):
-        cf = characteristic_func(frequency - (damping + 1) * 1j)
+        cf = characteristic_function_cgmy(frequency - (damping + 1) * 1j, S0, m, n, Delta, C, G, M, Y)
         numerator = discount * cf
         denominator = damping**2 + damping - frequency**2 + 1j * (2 * damping + 1) * frequency
         return numerator / denominator
 
     # STEP 5: APPLYING FFT
-    adjusted_values = adjusted_characteristic_func(frequencies) 
+    adjusted_values = adjusted_characteristic_func(frequencies)
     weights = 3 + (-1)**grid_points - np.where(grid_points == 1, 1, 0) #Simpson's rule weights
     fft_input = eta * np.exp(1j * b * frequencies) * adjusted_values * weights / 3
     transformed_log_strikes = np.real(fft(fft_input) * np.exp(-damping * log_strikes) / np.pi)
@@ -46,6 +44,6 @@ def EUROPEAN_price_fft_black_scholes(S0, K, T, r, q, sigma, option_type, damping
     f = interp1d(log_strikes, transformed_log_strikes)
     price_at_logK = np.real(f(logK))
     if option_type == 'put': # Adjusting for put prices if needed
-        price_at_logK = price_at_logK - (S0 * np.exp(-q * T) - K * discount)
-    
+        price_at_logK = price_at_logK - S0 * np.exp(-q * T) + K * np.exp(-r * T)
+
     return price_at_logK
