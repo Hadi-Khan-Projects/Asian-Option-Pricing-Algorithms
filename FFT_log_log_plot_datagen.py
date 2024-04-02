@@ -22,7 +22,7 @@ q = 0.00  # Continuous dividend yield (FIXED)
 sigma = 0.17801  # Volatility of the underlying asset, for Gaussian process (FIXED here)
 option_type = 'call'  # 'call' or 'put' (FIXED, may consider changing in the future)
 
-FFT_SHIFT_UPPER_BOUND = 22  # Upper bound for the shift value in the FFT algorithm
+FFT_SHIFT_UPPER_BOUND = 23  # Upper bound for the shift value in the FFT algorithm
 # BE MIND OF THE COMPUTATIONAL TIME WHEN SETTING THE UPPER BOUND
 
 # CREATING AN OPTION OBJECT
