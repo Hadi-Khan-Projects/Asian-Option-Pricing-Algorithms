@@ -8,7 +8,8 @@ def EUROPEAN_price_monte_carlo_g(S0, K, T, r, q, sigma, option_type, n_paths):
     dt = T  # For European option, we only need the price at maturity
     drift = (r - q - 0.5 * sigma ** 2) * dt
     vol_step = sigma * np.sqrt(dt)
-    
+    discount = np.exp(-r * T)
+
     # STEP 1: Generate random paths, array (n_paths) of standard normal random variables
     Z = np.random.normal(0, 1, n_paths)
     
@@ -28,9 +29,6 @@ def EUROPEAN_price_monte_carlo_g(S0, K, T, r, q, sigma, option_type, n_paths):
     else:
         # payoff for put option = strike price - stock price at maturity (or 0, whichever is higher)
         payoffs = np.maximum(K - prices_at_maturity, 0)
-    
-    # STEP 6: Risk-free rate discount
-    discount = np.exp(-r * T)
     
     # STEP 7: Present value of option = average payoff for all paths * discount
     option_price = np.mean(payoffs) * discount

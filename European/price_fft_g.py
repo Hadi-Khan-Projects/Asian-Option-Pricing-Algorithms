@@ -12,10 +12,6 @@ def EUROPEAN_price_fft_g(S0, K, T, r, q, sigma, option_type, damping, N, eta):
     spacing = (2*np.pi)/(N*eta)  # Spacing of log-strikes
     logK = np.log(K)  # Log of the strike price
     logS0 = np.log(S0)  # Log of the initial stock price
-
-    # eta is omega (frequencies)
-
-    # STEP 1: DISCOUNT FACTOR
     discount = np.exp(-r * T)
 
     # STEP 2: FFT GRID SETUP

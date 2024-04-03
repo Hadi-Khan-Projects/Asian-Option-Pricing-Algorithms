@@ -14,8 +14,6 @@ def GEOMETRIC_price_fft_nig(S0, K, T, r, q, alpha, beta, delta, option_type, n, 
     spacing = (2*np.pi)/(N*eta)  # Spacing of log-strikes
     logK = np.log(K)  # Log of the strike price
     Delta = T / n
-
-    # STEP 1: DISCOUNT FACTOR
     discount = np.exp(-r * T)
 
     # STEP 2: FFT GRID SETUP
