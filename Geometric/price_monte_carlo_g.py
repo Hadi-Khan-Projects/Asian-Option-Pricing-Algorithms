@@ -3,7 +3,7 @@ import numpy as np
 # Monte Carlo pricing via the Gaussian (normal random) process.
 # params - see Option class definition
 # return - option price
-def ARITHMETIC_price_monte_carlo(S0, K, T, r, q, sigma, n, option_type, n_paths):
+def GEOMETRIC_price_monte_carlo_g(S0, K, T, r, q, sigma, n, option_type, n_paths):
     # STEP 0: Calculate necessary constants
     dt = T / n  # Time step
     drift = (r - q - 0.5 * sigma ** 2) * dt # mu
@@ -21,17 +21,17 @@ def ARITHMETIC_price_monte_carlo(S0, K, T, r, q, sigma, n, option_type, n_paths)
     # STEP 4: Convert log(prices) to prices via exponentiation
     prices = np.exp(log_prices)
     
-    # STEP 5: Prepend S0 to each path, then calculate arithmetic mean for each path
+    # STEP 5: Prepend S0 to each path, then calculate geometric mean for each path
     prices_with_S0 = np.hstack((np.full((n_paths, 1), S0), prices))
-    arithmetic_means = np.mean(prices_with_S0, axis=1)
+    geometric_means = np.exp(np.mean(np.log(prices_with_S0), axis=1))
     
     # STEP 6: Calculate payoff based on option type
     if option_type == 'call':
-        # payoff = arithmetic mean of stock prices - strike price (or 0, whichever is higher)
-        payoffs = np.maximum(arithmetic_means - K, 0)
+        # payoff = geometric mean of stock prices - strike price (or 0, whichever is higher)
+        payoffs = np.maximum(geometric_means - K, 0)
     else: 
-        # payoff = strike price - arithmetic mean of stock prices (or 0, whichever is higher) 
-        payoffs = np.maximum(K - arithmetic_means, 0)
+        # payoff = strike price - geometric mean of stock prices (or 0, whichever is higher) 
+        payoffs = np.maximum(K - geometric_means, 0)
 
     # STEP 7: Risk-free rate discount
     discount = np.exp(-r * T) 
@@ -40,3 +40,7 @@ def ARITHMETIC_price_monte_carlo(S0, K, T, r, q, sigma, n, option_type, n_paths)
     option_price = np.mean(payoffs) * discount
     
     return option_price
+
+
+
+

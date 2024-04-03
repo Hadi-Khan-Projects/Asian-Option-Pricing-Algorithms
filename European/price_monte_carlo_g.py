@@ -3,7 +3,7 @@ import numpy as np
 # Monte Carlo pricing via the Gaussian (normal random) process.
 # params - see Option class definition
 # return - option price
-def EUROPEAN_price_monte_carlo(S0, K, T, r, q, sigma, option_type, n_paths):
+def EUROPEAN_price_monte_carlo_g(S0, K, T, r, q, sigma, option_type, n_paths):
     # STEP 0: Calculate necessary constants
     dt = T  # For European option, we only need the price at maturity
     drift = (r - q - 0.5 * sigma ** 2) * dt

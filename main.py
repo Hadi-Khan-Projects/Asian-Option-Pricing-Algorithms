@@ -18,25 +18,25 @@ print(f" {option_type} - Option Type \n {S0} - Initial Stock Price \n {K} - Stri
 
 print(f"\nEUROPEAN {option_type.upper()} OPTION PRICE:")
 
-# EUROPEAN - MONTE CARLO
-option_price = option.EUROPEAN_price_monte_carlo(n_paths=10000)
-print(f" {option_price:.6f} (Monte Carlo simulation)")
+# EUROPEAN - MONTE CARLO GAUSSIAN
+option_price = option.EUROPEAN_price_monte_carlo_g(n_paths=10000)
+print(f" {option_price:.6f} (Monte Carlo simulation with Gaussian process)")
 
-# EUROPEAN - FFT BLACK SCHOLES
-option_price = option.EUROPEAN_price_fft_black_scholes(damping=1.5, N=65536, eta=0.25)
+# EUROPEAN - FFT GAUSSIAN
+option_price = option.EUROPEAN_price_fft_g(damping=1.5, N=65536, eta=0.25)
 print(f" {option_price:.6f} (FFT with Black-Scholes characteristic function)")
 
 print(f"\nARITHMETIC ASIAN {option_type.upper()} OPTION PRICE:")
 
-# ARITHMETIC - MONTE CARLO
-option_price = option.ARITHMETIC_price_monte_carlo(n_paths=10000)
-print(f" {option_price:.6f} (Monte Carlo simulation)")
+# ARITHMETIC - MONTE CARLO GAUSSIAN
+option_price = option.ARITHMETIC_price_monte_carlo_g(n_paths=10000)
+print(f" {option_price:.6f} (Monte Carlo simulation with Gaussian process)")
 
 print(f"\nGEOMETRIC ASIAN {option_type.upper()} OPTION PRICE:")
 
-# GEOMETRIC - MONTE CARLO
-option_price = option.GEOMETRIC_price_monte_carlo(n_paths=10000)
-print(f" {option_price:.6f} (Monte Carlo simulation)")
+# GEOMETRIC - MONTE CARLO GAUSSIAN
+option_price = option.GEOMETRIC_price_monte_carlo_g(n_paths=10000)
+print(f" {option_price:.6f} (Monte Carlo simulation with Gaussian process)")
 
 # GEOMETRIC - FFT GAUSSIAN
 option_price = option.GEOMETRIC_price_fft_g(damping=1.5, N=65536, eta=0.25)

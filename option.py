@@ -1,15 +1,16 @@
-from European.price_monte_carlo import EUROPEAN_price_monte_carlo
-from European.price_fft import EUROPEAN_price_fft_black_scholes
+from European.price_monte_carlo_g import EUROPEAN_price_monte_carlo_g
+from European.price_fft_g import EUROPEAN_price_fft_g
 
-from Arithmetic.price_monte_carlo import ARITHMETIC_price_monte_carlo
+from Arithmetic.price_monte_carlo_g import ARITHMETIC_price_monte_carlo_g
 
-
-from Geometric.price_monte_carlo import GEOMETRIC_price_monte_carlo
+from Geometric.price_monte_carlo_g import GEOMETRIC_price_monte_carlo_g
 from Geometric.price_fft_g import GEOMETRIC_price_fft_g
 from Geometric.price_fft_cgmy import GEOMETRIC_price_fft_cgmy
 from Geometric.price_fft_jd import GEOMETRIC_price_fft_jd
 from Geometric.price_fft_de import GEOMETRIC_price_fft_de
 from Geometric.price_fft_nig import GEOMETRIC_price_fft_nig
+
+from Geometric import *
 
 class Option:
     def __init__(self, S0, K, T, r, q, sigma, n, option_type):
@@ -25,21 +26,21 @@ class Option:
 
     # EUROPEAN
 
-    def EUROPEAN_price_monte_carlo(self, n_paths): # n_paths = the number of monte carlo paths to simulate
-        return EUROPEAN_price_monte_carlo(self.S0, self.K, self.T, self.r, self.q, self.sigma, self.option_type, n_paths)
+    def EUROPEAN_price_monte_carlo_g(self, n_paths): # n_paths = the number of monte carlo paths to simulate
+        return EUROPEAN_price_monte_carlo_g(self.S0, self.K, self.T, self.r, self.q, self.sigma, self.option_type, n_paths)
     
-    def EUROPEAN_price_fft_black_scholes(self, damping, N, eta): # N = no. of discrete points in FFT, eta = spacing between points in FFT
-        return EUROPEAN_price_fft_black_scholes(self.S0, self.K, self.T, self.r, self.q, self.sigma, self.option_type, damping, N, eta)
+    def EUROPEAN_price_fft_g(self, damping, N, eta): # N = no. of discrete points in FFT, eta = spacing between points in FFT
+        return EUROPEAN_price_fft_g(self.S0, self.K, self.T, self.r, self.q, self.sigma, self.option_type, damping, N, eta)
 
     # ARITHMETIC
 
-    def ARITHMETIC_price_monte_carlo(self, n_paths): # n_paths = the number of monte carlo paths to simulate
-        return ARITHMETIC_price_monte_carlo(self.S0, self.K, self.T, self.r, self.q, self.sigma, self.n, self.option_type, n_paths)
+    def ARITHMETIC_price_monte_carlo_g(self, n_paths): # n_paths = the number of monte carlo paths to simulate
+        return ARITHMETIC_price_monte_carlo_g(self.S0, self.K, self.T, self.r, self.q, self.sigma, self.n, self.option_type, n_paths)
 
     # GEOMETRIC
 
-    def GEOMETRIC_price_monte_carlo(self, n_paths): # n_paths = the number of monte carlo paths to simulate
-        return GEOMETRIC_price_monte_carlo(self.S0, self.K, self.T, self.r, self.q, self.sigma, self.n, self.option_type, n_paths)
+    def GEOMETRIC_price_monte_carlo_g(self, n_paths): # n_paths = the number of monte carlo paths to simulate
+        return GEOMETRIC_price_monte_carlo_g(self.S0, self.K, self.T, self.r, self.q, self.sigma, self.n, self.option_type, n_paths)
     
     def GEOMETRIC_price_fft_g(self, damping, N, eta):
         return GEOMETRIC_price_fft_g(self.S0, self.K, self.T, self.r, self.q, self.sigma, self.option_type, self.n, damping, N, eta)

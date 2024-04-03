@@ -6,7 +6,7 @@ from scipy.interpolate import interp1d
 # param - characteristic: the characteristic function
 # params - see Option class definition
 # return - option price
-def EUROPEAN_price_fft_black_scholes(S0, K, T, r, q, sigma, option_type, damping, N, eta):
+def EUROPEAN_price_fft_g(S0, K, T, r, q, sigma, option_type, damping, N, eta):
     # STEP 0: CALCULATE NECESSARY CONSTANTS
     b = np.pi * eta
     spacing = (2*np.pi)/(N*eta)  # Spacing of log-strikes
