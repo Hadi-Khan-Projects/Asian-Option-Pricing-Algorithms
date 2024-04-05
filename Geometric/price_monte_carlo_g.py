@@ -8,7 +8,8 @@ def GEOMETRIC_price_monte_carlo_g(S0, K, T, r, q, sigma, n, option_type, n_paths
     dt = T / n  # Time step
     drift = (r - q - 0.5 * sigma ** 2) * dt # mu
     vol_step = sigma * np.sqrt(dt) # sigma * sqrt of time step
-    
+    discount = np.exp(-r * T) 
+
     # STEP 1: Generate random paths, (n_paths x n dates) of standard normal random variables
     Z = np.random.normal(0, 1, (n_paths, n))
     
@@ -32,9 +33,6 @@ def GEOMETRIC_price_monte_carlo_g(S0, K, T, r, q, sigma, n, option_type, n_paths
     else: 
         # payoff = strike price - geometric mean of stock prices (or 0, whichever is higher) 
         payoffs = np.maximum(K - geometric_means, 0)
-
-    # STEP 7: Risk-free rate discount
-    discount = np.exp(-r * T) 
     
     # STEP 8: Present value of option = average payoff for all paths * discount
     option_price = np.mean(payoffs) * discount
