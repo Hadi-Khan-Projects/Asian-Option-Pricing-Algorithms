@@ -6,6 +6,8 @@ from scipy.interpolate import interp1d
 # param - characteristic: the characteristic function
 # params - see Option class definition
 # return - option price
+
+# STEP 1: Specify function parameters
 def EUROPEAN_price_fft_g(S0, K, T, r, q, sigma, option_type, damping, N, eta):
     # STEP 0: CALCULATE NECESSARY CONSTANTS
     b = np.pi * eta
