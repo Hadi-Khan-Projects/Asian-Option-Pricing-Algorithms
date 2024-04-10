@@ -9,7 +9,7 @@ from Geometric.price_fft_cgmy import GEOMETRIC_price_fft_cgmy
 from Geometric.price_fft_jd import GEOMETRIC_price_fft_jd
 from Geometric.price_fft_de import GEOMETRIC_price_fft_de
 from Geometric.price_fft_nig import GEOMETRIC_price_fft_nig
-from Geometric.price_fft_hawkes import GEOMETRIC_price_fft_hawkes
+from Geometric.price_fft_nov import GEOMETRIC_price_fft_nov
 
 from Geometric import *
 
@@ -58,5 +58,5 @@ class Option:
     def GEOMETRIC_price_fft_nig(self, damping, N, eta, alpha, beta, delta):
         return GEOMETRIC_price_fft_nig(self.S0, self.K, self.T, self.r, self.q, alpha, beta, delta, self.option_type, self.n, damping, N, eta)
     
-    def GEOMETRIC_price_fft_hawkes(self, damping, N, eta, lambda0, alpha, beta, mu, rho):
-        return GEOMETRIC_price_fft_hawkes(self.S0, self.K, self.T, self.r, self.q, self.sigma, lambda0, alpha, beta, mu, rho, self.option_type, self.n, damping, N, eta)
+    def GEOMETRIC_price_fft_nov(self, damping, N, eta, lambda0, alpha, beta, mu, rho):
+        return GEOMETRIC_price_fft_nov(self.S0, self.K, self.T, self.r, self.q, self.sigma, lambda0, alpha, beta, mu, rho, self.option_type, self.n, damping, N, eta)
