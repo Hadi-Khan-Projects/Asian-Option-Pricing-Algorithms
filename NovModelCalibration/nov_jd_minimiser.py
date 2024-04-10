@@ -54,11 +54,11 @@ def meta_objective_function_nov(params):
     return error
 
 # Novel Jump Diffusion
-lambda0 = 0.0296 # Initial jump intensity
-alpha = -0.6033  # Self-excitation parameter
-beta = 0.4398 # Jump intensity mean-reversion speed
-mu = 0.2096  # Mean jump size
-rho = 2.3500 # Correlation between jump sizes and jump times
+lambda0 = 0.0296 
+alpha = -0.6033  
+beta = 0.4398 
+mu = 0.2096  
+rho = 2.3500 
 
 bounds = [(-1, 1), (-1, 1), (0.01, 1), (-1, 1), (0.01, 10)]
 initial_guess_Novel = [lambda0, alpha, beta, mu, rho]
@@ -104,11 +104,11 @@ minimize(method=’trust-exact’)
 # DEPRECATED CALIBRATION STEPS
 # Novel Jump Diffusion
 """
-lambda0 = -0.2499 # Initial jump intensity
-alpha = -0.3225  # Self-excitation parameter
-beta = 0.5596  # Jump intensity mean-reversion speed
-mu = -0.2271  # Mean jump size
-rho = 1.2070  # Correlation between jump sizes and jump times
+lambda0 = -0.2499 
+alpha = -0.3225  
+beta = 0.5596  
+mu = -0.2271  
+rho = 1.2070  
 
 #bounds = [(-1, 1), (0.01, 1), (0.01, 1), (0.01, 1), (-10, 10)]
 initial_guess_Novel = [lambda0, alpha, beta, mu, rho]
